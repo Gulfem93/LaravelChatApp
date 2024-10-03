@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\privateEvent;
 use App\Events\testingEvent;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -19,11 +20,18 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('test', function () {
-    event(new testingEvent());
+Route::get('user1', function () {
+    event(new testingEvent("done", 1));
 
-    return "done";
+    return "Birinci kullanıcı hosgeldin";
 });
+
+Route::get('user2', function () {
+    event(new privateEvent("done", 2));
+
+    return "İkinci kullanıcı hosgeldin";
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
